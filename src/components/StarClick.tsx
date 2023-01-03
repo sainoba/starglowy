@@ -13,9 +13,12 @@ const starglow3 = require('../assets/images/starglow3.png');
 const StarMenu = () => {
     const [isStarPressed, setIsStarPressed] = useState(false);
     const [clicksPerSecond, setClicksPerSecond] = useState(0);
+    const [maxClicksPerSecond, setMaxClicksPerSecond] = useState(0);
+    const refMaxClicksPerSecond = useRef(maxClicksPerSecond);
     const [clicksHistory, setClicksHistory] = useState<number[]>([]);
     const refClicksHistory = useRef(clicksHistory);
     const [starglow, setStarglow] = useState(starglow1);
+    const [showScore, setShowScore] = useState(false);
 
 
     function calculateClicksPerSecond() {
@@ -23,16 +26,21 @@ const StarMenu = () => {
         const history = refClicksHistory.current.filter(t => now - t < 1000);
         setClicksHistory(history);
         setClicksPerSecond(history.length);
+        setMaxClicksPerSecond(Math.max(refMaxClicksPerSecond.current, history.length));
 
         if (history.length >= 8) {
             setStarglow(starglow3);
         }
         else if (history.length >= 4) {
             setStarglow(starglow2);
+            setShowScore(true);
         } else {
             setStarglow(starglow1);
         }
     }
+    useEffect(() => {
+        refMaxClicksPerSecond.current = maxClicksPerSecond;
+    }, [maxClicksPerSecond]);
 
     useEffect(() => {
         refClicksHistory.current = clicksHistory;
@@ -45,27 +53,40 @@ const StarMenu = () => {
 
 
     return (
-        <div className={`star-menu ${isStarPressed ? "pressed" : ""}`}
-            onClick={() => {
-                console.log("click");
-                setClicksHistory([...clicksHistory, Date.now()]);
-            }}
-            onPointerDown={() => {
-                setIsStarPressed(true);
-            }}
-            onPointerUp={() => {
-                setIsStarPressed(false);
-            }}
-        >
-            <img
-                draggable={false}
-                className={
-                    `starglow1` +
-                    ` ${clicksPerSecond >= 4 ? "shake shake-constant" : ""}` +
-                    ` ${clicksPerSecond >= 8 ? "shake-hard" : ""}`
-                }
-                src={starglow}
-            />
+        <div class="star-menu-wrapper">
+            <div className={`star-menu ${isStarPressed ? "pressed" : ""}`}
+                onClick={() => {
+                    console.log("click");
+                    setClicksHistory([...clicksHistory, Date.now()]);
+                }}
+                onPointerDown={() => {
+                    setIsStarPressed(true);
+                }}
+                onPointerUp={() => {
+                    setIsStarPressed(false);
+                }}
+            >
+                <img
+                    draggable={false}
+                    className={
+                        `starglow1` +
+                        ` ${clicksPerSecond >= 4 ? "shake shake-constant" : ""}` +
+                        ` ${clicksPerSecond >= 8 ? "shake-hard" : ""}`
+                    }
+                    src={starglow}
+                />
+            </div>
+            <div
+                className={`click-stats ${showScore ? "" : "hidden"}`}
+            >
+                <div class="close-btn"
+                    onClick={() => {
+                        setShowScore(false);
+                    }}
+                >X</div>
+                <div>Max clicks/second: {maxClicksPerSecond}</div>
+                <div>Clicks/second: {clicksPerSecond}</div>
+            </div>
         </div>
     );
 };
