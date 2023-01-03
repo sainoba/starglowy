@@ -26,8 +26,14 @@ interface ICardProps {
     gridColumn: string;
 }
 
+interface PreloadItem {
+    imgUrl: string;
+    callback: () => void;
+}
+
 const Bg = () => {
     const [cardsState, setCardsState] = useState<ICardProps[]>([]);
+    const [preloadQueue, setPreloadQueue] = useState<PreloadItem[]>([]);
     // const elementsRef = useRef([].map(() => createRef()));
 
     const cardsStateRef = useRef(cardsState);
@@ -80,18 +86,29 @@ const Bg = () => {
         }
 
         // let card = cardsStateRef.current[cardIdx];
-        const newImageKey = randomImageKeyGen.next().value as string;
-        setCardsState(cardsState => {
-            return cardsState.map((card, idx) => {
-                if (idx === cardIdx) {
-                    return {
-                        ...card,
-                        imgKey: newImageKey,
-                    };
+
+        // preload next image
+        setPreloadQueue(preloadQueue => {
+            const newImageKey = randomImageKeyGen.next().value as string;
+            const imgUrl = (ig_imgs[newImageKey].webp || ig_imgs[newImageKey].png || ig_imgs[newImageKey].jpg) as string;
+            return preloadQueue.concat({
+                imgUrl: imgUrl,
+                callback: () => {
+                    setCardsState(cardsState => {
+                        return cardsState.map((card, idx) => {
+                            if (idx === cardIdx) {
+                                return {
+                                    ...card,
+                                    imgKey: newImageKey,
+                                };
+                            }
+                            return card;
+                        });
+                    });
                 }
-                return card;
-            });
+            })
         });
+
 
         if (!cardClicked) { // Was triggered by timeout, schedule again
             setTimeout(() => {
@@ -99,6 +116,8 @@ const Bg = () => {
             }, 5000);
         }
     }
+
+
 
     function checkOverflowing() {
         if (!mosaicRef.current) {
@@ -142,36 +161,53 @@ const Bg = () => {
         });
     }
 
+    function handlePreloaderLoad() {
+        if (preloadQueue.length === 0) {
+            return;
+        }
+        preloadQueue[0].callback();
+        setPreloadQueue(preloadQueue => {
+            return preloadQueue.slice(1);
+        });
+    }
+
 
     return (
-        <div className="image-mosaic" ref={mosaicRef}>
-            {cardsState.map((card, idx) => {
-                const imgUrl = ig_imgs[card.imgKey].webp || ig_imgs[card.imgKey].png || ig_imgs[card.imgKey].jpg;
-                return (
-                    <div
-                        key={idx}
-                        className="card"
-                        ref={card.ref}
-                        style={{
-                            "backgroundImage": `url(${imgUrl})`,
-                            "gridRow": card.gridRow,
-                            "gridColumn": card.gridColumn,
-                        }}
-                        onClick={() => {
-                            changeDivBackground(card.ref);
-                        }}
-                        onDragOver={() => {
-                            changeDivBackground(card.ref);
-                        }}
-                        onDragOverCapture={() => {
-                            changeDivBackground(card.ref);
-                        }}
-                        onMouseEnter={() => {
-                            changeDivBackground(card.ref);
-                        }}
-                    >
-                    </div>);
-            })}
+        <div className="image-mosaic-wrapper">
+            <img
+                className="image-preloader"
+                src={preloadQueue.length !== 0 ? preloadQueue[0].imgUrl : ""}
+                onLoad={handlePreloaderLoad}
+            />
+            <div className="image-mosaic" ref={mosaicRef}>
+                {cardsState.map((card, idx) => {
+                    const imgUrl = ig_imgs[card.imgKey].webp || ig_imgs[card.imgKey].png || ig_imgs[card.imgKey].jpg;
+                    return (
+                        <div
+                            key={idx}
+                            className="card"
+                            ref={card.ref}
+                            style={{
+                                "backgroundImage": `url(${imgUrl})`,
+                                "gridRow": card.gridRow,
+                                "gridColumn": card.gridColumn,
+                            }}
+                            onClick={() => {
+                                changeDivBackground(card.ref);
+                            }}
+                            onDragOver={() => {
+                                changeDivBackground(card.ref);
+                            }}
+                            onDragOverCapture={() => {
+                                changeDivBackground(card.ref);
+                            }}
+                            onMouseEnter={() => {
+                                changeDivBackground(card.ref);
+                            }}
+                        >
+                        </div>);
+                })}
+            </div>
         </div>
     );
 };
