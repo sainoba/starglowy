@@ -131,7 +131,6 @@ const Bg = () => {
     }
 
     function addCard() {
-        console.log("add card");
         setCardsState(cardsState => {
             const imgKey = randomImageKeyGen.next().value as string;
             return cardsState.concat({

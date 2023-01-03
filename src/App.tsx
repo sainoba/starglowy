@@ -1,14 +1,17 @@
 import { h } from "preact";
 
+import "./css/reset.scss";
 import "./App.scss";
 import BG from "./components/BG";
-import StarMenu from "./components/StarMenu";
+import StarClick from "./components/StarClick";
+import Menu from "./components/Menu";
 
 const App = () => {
 
     return (
         <div style={{ postition: "relative" }}>
-            <StarMenu />
+            <Menu />
+            <StarClick />
             <BG />
         </div>
     );
