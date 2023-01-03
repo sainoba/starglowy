@@ -4,6 +4,7 @@
   height: 100%;
   top: 0;
   left: 0;
+  pointer-events: none;
   .star-menu {
     cursor: pointer;
     display: inline-block;
@@ -13,6 +14,7 @@
     transform: translate(-50%, -50%);
     transition: all 125ms, transform 100ms;
     z-index: 0;
+    pointer-events: all;
     &.pressed,
     &:active {
       transform: translate(-50%, -50%) scale(0.8);
@@ -31,11 +33,13 @@
     bottom: 1rem;
     left: 50%;
     transform: translateX(-50%);
-    font-size: 1.5rem;
+    font-size: 1.2rem;
     border-radius: 5px;
     padding: 0.5rem;
     text-align: center;
     background-color: white;
+    width: max-content;
+    pointer-events: all;
     &.hidden {
       display: none;
     }
