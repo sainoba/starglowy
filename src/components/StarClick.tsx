@@ -59,7 +59,6 @@ const StarMenu = () => {
         <div class="star-menu-wrapper">
             <div className={`star-menu ${isStarPressed ? "pressed" : ""}`}
                 onClick={() => {
-                    console.log("click");
                     setClicksHistory([...clicksHistory, Date.now()]);
                 }}
                 onPointerDown={() => {
