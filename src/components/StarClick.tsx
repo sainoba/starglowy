@@ -13,7 +13,7 @@ const starglow3 = require('../assets/images/starglow3.png');
 const StarMenu = () => {
     const [isStarPressed, setIsStarPressed] = useState(false);
     const [clicksPerSecond, setClicksPerSecond] = useState(0);
-    const [maxClicksPerSecond, setMaxClicksPerSecond] = useState(0);
+    const [maxClicksPerSecond, setMaxClicksPerSecond] = useState(parseInt(localStorage.getItem("maxClicksPerSecond") || "0"));
     const refMaxClicksPerSecond = useRef(maxClicksPerSecond);
     const [clicksHistory, setClicksHistory] = useState<number[]>([]);
     const refClicksHistory = useRef(clicksHistory);
@@ -26,6 +26,9 @@ const StarMenu = () => {
         const history = refClicksHistory.current.filter(t => now - t < 1000);
         setClicksHistory(history);
         setClicksPerSecond(history.length);
+        if (history.length > refMaxClicksPerSecond.current) {
+            localStorage.setItem("maxClicksPerSecond", history.length.toString());
+        }
         setMaxClicksPerSecond(Math.max(refMaxClicksPerSecond.current, history.length));
 
         if (history.length >= 8) {
