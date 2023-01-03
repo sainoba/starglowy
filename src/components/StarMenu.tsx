@@ -1,6 +1,7 @@
 import { h } from "preact";
 import { useEffect, useRef, useState } from "preact/hooks";
 // import csshake library
+import "./StarMenu.scss";
 import "csshake/dist/csshake.min.css";
 
 
@@ -63,32 +64,16 @@ const StarMenu = () => {
                     ` ${clicksPerSecond >= 8 ? "shake-hard" : ""}`
                 }
                 src={starglow}
-                useMap="#starglow1-map" />
-            <map name="starglow1-map">
-                <area
-                    onClick={() => {
-                        setClicksHistory([...clicksHistory, Date.now()]);
-                    }}
-                    onTouchStart={() => {
-                        setIsStarPressed(true);
-                    }}
-                    onTouchEnd={() => {
-                        setIsStarPressed(false);
-                    }}
-                    onPointerDown={() => {
-                        setIsStarPressed(true);
-                    }}
-                    onPointerUp={() => {
-                        setIsStarPressed(false);
-                    }}
-                    onMouseDown={() => {
-                        setIsStarPressed(true);
-                    }}
-                    onMouseUp={() => {
-                        setIsStarPressed(false);
-                    }}
-                    target="#" coords="235,11,219,74,157,60,115,80,103,57,79,57,21,163,29,191,6,187,1,233,21,264,54,291,83,301,41,363,92,405,81,463,148,468,160,421,187,419,213,466,267,445,249,399,297,358,255,293,281,264,311,253,326,195,305,195,282,168,283,144,337,137,339,79,287,69,296,0,260,0" shape="poly" />
-            </map>
+                onClick={() => {
+                    setClicksHistory([...clicksHistory, Date.now()]);
+                }}
+                onPointerDown={() => {
+                    setIsStarPressed(true);
+                }}
+                onPointerUp={() => {
+                    setIsStarPressed(false);
+                }}
+            />
         </div>
     );
 };
