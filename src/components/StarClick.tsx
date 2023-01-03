@@ -44,13 +44,6 @@ const StarMenu = () => {
     }, []);
 
 
-    // useEffect(() => {
-    //     calculateClicksPerSecond();
-    // }, [clicksHistory]);
-
-
-
-
     return (
         <div className={
             `star-menu ${isStarPressed ? "pressed" : ""}`
