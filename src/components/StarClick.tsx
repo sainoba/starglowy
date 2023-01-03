@@ -45,9 +45,18 @@ const StarMenu = () => {
 
 
     return (
-        <div className={
-            `star-menu ${isStarPressed ? "pressed" : ""}`
-        }>
+        <div className={`star-menu ${isStarPressed ? "pressed" : ""}`}
+            onClick={() => {
+                console.log("click");
+                setClicksHistory([...clicksHistory, Date.now()]);
+            }}
+            onPointerDown={() => {
+                setIsStarPressed(true);
+            }}
+            onPointerUp={() => {
+                setIsStarPressed(false);
+            }}
+        >
             <img
                 draggable={false}
                 className={
@@ -56,15 +65,6 @@ const StarMenu = () => {
                     ` ${clicksPerSecond >= 8 ? "shake-hard" : ""}`
                 }
                 src={starglow}
-                onClick={() => {
-                    setClicksHistory([...clicksHistory, Date.now()]);
-                }}
-                onPointerDown={() => {
-                    setIsStarPressed(true);
-                }}
-                onPointerUp={() => {
-                    setIsStarPressed(false);
-                }}
             />
         </div>
     );
