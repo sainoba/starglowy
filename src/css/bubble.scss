@@ -1,0 +1,124 @@
+$color-blue: #83af9b;
+$color-green: #c8c8a9;
+$color-brown: #774f38;
+$color-beige: #ece5ce;
+$color-yellow: #f9cdad;
+$color-pink: #fe4365;
+
+body p.bubble {
+  transform: translatey(0px);
+  animation: float 5s ease-in-out infinite;
+  mix-blend-mode: multiply;
+  text-align: center;
+  text-transform: uppercase;
+  font-weight: bold;
+  letter-spacing: 3px;
+  font-size: 25px;
+  color: $color-brown;
+  background-color: $color-beige;
+  padding: 25px;
+  border-radius: 11px;
+  position: relative;
+  box-shadow: 20px 20px $color-blue;
+  box-shadow: 20px 20px #2E2E2E;
+  font-family: "Baloo 2", cursive;
+  z-index: 10;
+  max-height: 50vh;
+  // border: 1px solid $color-green;;
+}
+
+@media screen and (max-width: 600px) {
+  body p.bubble {
+    font-size: 5vw;
+    padding: 5vw;
+  }
+}
+@media screen and (min-width: 601px) {
+  body p.bubble {
+    font-size: 25px;
+    padding: 25px;
+  }
+}
+
+
+@media screen and (max-height: 400px) {
+  body p.bubble {
+    font-size: 15px;
+    padding: 25px;
+  }
+}
+
+body p.bubble:after {
+  //   transform: translatey(0px);
+  animation: float2 5s ease-in-out infinite;
+  content: ".";
+  font-weight: bold;
+  // -webkit-text-stroke: 0.5px $color-green;
+  -webkit-text-fill-color: $color-beige;
+  // border: 1px solid $color-green;
+  text-shadow: 22px 22px $color-blue;
+  text-shadow: 22px 22px #2E2E2E;
+  text-align: center;
+  font-size: 55px;
+  width: 55px;
+  height: 11px;
+  line-height: 30px;
+  border-radius: 11px;
+  background-color: $color-beige;
+  position: absolute;
+  display: block;
+  bottom: -30px;
+  //   left: 0;
+  left: 50%;
+  box-shadow: 22px 22px $color-blue;
+  box-shadow: 22px 22px #2E2E2E;
+  z-index: -2;
+}
+
+@keyframes float {
+  0% {
+    transform: translatey(0px);
+  }
+  50% {
+    transform: translatey(-20px);
+  }
+  100% {
+    transform: translatey(0px);
+  }
+}
+
+@keyframes float2 {
+  0% {
+    line-height: 30px;
+    transform: translatey(0px);
+  }
+  55% {
+    transform: translatey(-20px);
+  }
+  60% {
+    line-height: 10px;
+  }
+  100% {
+    line-height: 30px;
+    transform: translatey(0px);
+  }
+}
+
+
+
+@keyframes float3 {
+  0% {
+    line-height: 30px;
+    transform: rotate(290deg) translate(70px, 40px);
+  }
+  55% {
+    transform: rotate(290deg) translate(70px, 20px);
+  }
+  60% {
+    line-height: 10px;
+  }
+  100% {
+    line-height: 30px;
+    transform: rotate(290deg) translate(70px, 40px);
+  }
+}

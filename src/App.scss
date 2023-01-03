@@ -1,0 +1,21 @@
+.star-menu {
+  display: inline-block;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  transition: all 125ms;
+  &.pressed &:active {
+    transform: translate(-50%, -50%) scale(0.8);
+  }
+
+  img {
+    user-select: none;
+  }
+}
+
+map,
+area {
+  pointer-events: all;
+  cursor: pointer;
+}

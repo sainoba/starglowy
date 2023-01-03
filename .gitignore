@@ -1,5 +1,15 @@
-node_modules
 .DS_Store
+
+node_modules
+.parcel-cache
 dist
+
 dist-ssr
 *.local
+
+# API keys and secrets
+.env
+
+
+# ignore yarn.lock
+yarn.lock
